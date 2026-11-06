@@ -39,7 +39,7 @@ npx playwright install chromium
 | `npm run render:web` | Same as `render`, then also writes a small copy for sharing, `out/from-idea-to-app_web.mp4` (about 7 MB). |
 | `npm run render:draft` | A quick preview render to `out/draft.mp4`. It captures JPEG frames instead of PNG, so it is lower quality but about twice as fast. |
 | `npm run encode:web` | Re-encodes an existing master into the small web copy without rendering again. |
-| `npm run build:standalone` | Builds `dist/from-idea-to-app.html`, a single 0.8 MB file with the code, three.js and fonts inlined. It opens straight from disk with no server or network. |
+| `npm run build` | Builds `dist/index.html`, a single 0.8 MB file with the code, three.js and fonts inlined. It opens straight from disk with no server or network, and it is also the page Vercel serves. |
 
 `render.mjs` also takes options:
 
@@ -52,6 +52,8 @@ node render.mjs --angle gl                # override the GPU backend
 ```
 
 The renderer picks the GPU backend for your platform (`d3d11` on Windows, `metal` on macOS, `vulkan` on Linux). It prints the GPU it got and warns if it fell back to software.
+
+**Bun.** The scripts also run under [Bun](https://bun.sh/) 1.4.4 or newer, with output identical to Node's. In one full render Bun took 62 s against Node's 68 s. Bun 1.3.x could not launch Chromium through Playwright. Run `bun render.mjs --web` directly, or `bun --bun run render:web`. Plain `bun run render` still runs Node, because the scripts call `node`.
 
 **Speed.** Drawing a frame takes about 26 ms on the GPU. Capturing it is the slow part: each PNG screenshot takes about 0.55 s, because the film grain makes every frame nearly incompressible. The renderer therefore runs several headless browsers in parallel, by default about one per three CPU cores and at most 12. Each browser renders every Nth frame, and a reorder buffer feeds the frames to a single ffmpeg encode in the right order. On an RTX 4090 with 32 cores, a full render takes about 70 seconds with 10 workers, compared with about 10 minutes with 1. The master file is H.264 at CRF 14 and weighs about 200 MB, again because of the grain. Use `render:web` or `encode:web` to get a copy small enough to share.
 
@@ -85,11 +87,18 @@ src/scenes.js         the four scenes, the step labels and the reveal overlay (e
 src/lib.js            easing, seeded random numbers, canvas helpers, slab geometry, glass material, Panel class
 render.mjs            Playwright + ffmpeg renderer (stills or video, parallel workers)
 server.mjs            tiny static server used by preview and render
-build-standalone.mjs  bundles everything into a single offline HTML file
+scripts/build.mjs     bundles everything into a single offline HTML file, dist/index.html
+vercel.json           tells Vercel to run the build and serve dist/
 docs/                 README images
 ```
 
 Scene timings live at the top of each scene builder in `src/scenes.js`. Camera holds, scene positions and shot framing are the `sceneDefs`, `holds` and `WIDE` constants in `src/main.js`.
+
+## Deploying to Vercel
+
+Import the repository into Vercel and leave the project settings on their defaults. `vercel.json` sets the build command to `npm run build` and the output directory to `dist/`, so the explainer plays at the root URL. The site is a single static HTML file, about 0.8 MB. It needs no server code and loads nothing else. Playwright is only a dev dependency, and installing it does not download browsers, so the build stays quick.
+
+The live page renders in real time in the visitor's browser, using the same 1920×1080 internal resolution as the video, scaled to fit the window. On slower GPUs and phones it skips in-between moments to keep to the clock, so it can look less smooth than the MP4.
 
 ## Notes
 

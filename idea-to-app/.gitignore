@@ -1,5 +1,5 @@
 node_modules/
 # render output (the master MP4 is ~200 MB, over GitHub's 100 MB file limit)
 out/
-# built by `npm run build:standalone`
+# built by `npm run build` (Vercel builds it on deploy)
 dist/

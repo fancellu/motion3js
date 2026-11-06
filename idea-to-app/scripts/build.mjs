@@ -1,13 +1,13 @@
-// Builds dist/from-idea-to-app.html: one self-contained file (code, three.js and fonts inlined)
-// that opens straight from disk — no server, no network.
-//   npm run build:standalone
+// Builds dist/index.html: one self-contained file (code, three.js and fonts inlined)
+// that opens straight from disk — no server, no network. Also what Vercel serves (see vercel.json).
+//   npm run build
 import { build } from 'esbuild';
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
-const ROOT = path.dirname(fileURLToPath(import.meta.url));
-const OUT = path.join(ROOT, 'dist', 'from-idea-to-app.html');
+const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
+const OUT = path.join(ROOT, 'dist', 'index.html');
 
 // 1. bundle src/main.js + three.js into a single ES module string
 const result = await build({
