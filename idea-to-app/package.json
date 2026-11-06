@@ -1,0 +1,28 @@
+{
+  "name": "idea-to-app",
+  "version": "1.0.0",
+  "private": true,
+  "description": "A deterministic 15-second glassmorphism motion-graphics explainer in Three.js, rendered frame by frame to MP4 with Playwright and ffmpeg.",
+  "scripts": {
+    "preview": "node server.mjs",
+    "stills": "node render.mjs --stills 1.2,2.6,4.9,5.7,8.0,9.2,11.0,12.2,13.2,14.9",
+    "render": "node render.mjs",
+    "render:web": "node render.mjs --web",
+    "render:draft": "node render.mjs --jpeg --out out/draft.mp4",
+    "encode:web": "node render.mjs --web-only",
+    "build:standalone": "node build-standalone.mjs"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "dependencies": {
+    "@fontsource/inter": "^5.3.0",
+    "@fontsource/jetbrains-mono": "^5.3.0",
+    "playwright": "^1.65.0",
+    "three": "^0.187.0"
+  },
+  "devDependencies": {
+    "esbuild": "^0.28.2"
+  }
+}

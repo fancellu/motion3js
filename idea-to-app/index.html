@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>From idea to app with Claude Code</title>
+<style>
+  @font-face { font-family: Inter; font-weight: 400; src: url(node_modules/@fontsource/inter/files/inter-latin-400-normal.woff2) format('woff2'); }
+  @font-face { font-family: Inter; font-weight: 500; src: url(node_modules/@fontsource/inter/files/inter-latin-500-normal.woff2) format('woff2'); }
+  @font-face { font-family: Inter; font-weight: 600; src: url(node_modules/@fontsource/inter/files/inter-latin-600-normal.woff2) format('woff2'); }
+  @font-face { font-family: Inter; font-weight: 700; src: url(node_modules/@fontsource/inter/files/inter-latin-700-normal.woff2) format('woff2'); }
+  @font-face { font-family: Inter; font-weight: 800; src: url(node_modules/@fontsource/inter/files/inter-latin-800-normal.woff2) format('woff2'); }
+  @font-face { font-family: "JetBrains Mono"; font-weight: 400; src: url(node_modules/@fontsource/jetbrains-mono/files/jetbrains-mono-latin-400-normal.woff2) format('woff2'); }
+  @font-face { font-family: "JetBrains Mono"; font-weight: 500; src: url(node_modules/@fontsource/jetbrains-mono/files/jetbrains-mono-latin-500-normal.woff2) format('woff2'); }
+  html, body { margin: 0; background: #000; overflow: hidden; }
+  #stage canvas { display: block; width: 1920px; height: 1080px; }
+  body:not(.render) #stage { position: absolute; left: 50%; top: 50%; transform-origin: center; }
+  #info { position: fixed; left: 12px; bottom: 10px; color: #aaa; font: 12px ui-monospace, monospace; }
+  body.render #info { display: none; }
+</style>
+<script type="importmap">
+{ "imports": {
+    "three": "./node_modules/three/build/three.module.js",
+    "three/addons/": "./node_modules/three/examples/jsm/"
+} }
+</script>
+</head>
+<body>
+<div id="stage"></div>
+<div id="info"></div>
+<script>
+  if (new URLSearchParams(location.search).has('render')) document.body.classList.add('render');
+  else {
+    const fit = () => {
+      const s = Math.min(innerWidth / 1920, innerHeight / 1080);
+      document.getElementById('stage').style.transform = `translate(-50%,-50%) scale(${s})`;
+    };
+    addEventListener('resize', fit); fit();
+  }
+</script>
+<script type="module" src="./src/main.js"></script>
+</body>
+</html>
