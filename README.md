@@ -10,7 +10,7 @@ Motion-graphics experiments built with [Three.js](https://threejs.org/) and [Cla
 
 | Project | |
 | --- | --- |
-| [**idea-to-app**](idea-to-app/)<br>A 15-second glassmorphism explainer, *From idea to app with Claude Code*. A camera flies through four frosted-glass scenes (describe, plan, build, ship), then pulls back for the reveal. | https://github.com/user-attachments/assets/911ba05c-bfa6-4c9b-8c01-23c42e49498a |
+| [**idea-to-app**](idea-to-app/)<br>[**Live**](https://idea-to-app.vercel.app)<br>A 15-second glassmorphism explainer, *From idea to app with Claude Code*. A camera flies through four frosted-glass scenes (describe, plan, build, ship), then pulls back for the reveal. | https://github.com/user-attachments/assets/911ba05c-bfa6-4c9b-8c01-23c42e49498a |
 
 ## Layout
 
